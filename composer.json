@@ -1,0 +1,41 @@
+{
+    "name": "mralston/cxm",
+    "description": "Library for working with Connex CXM dialler.",
+    "keywords": [
+        "mralston",
+        "laravel",
+        "connex",
+        "cxm"
+    ],
+    "homepage": "https://github.com/mralston/cxm",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Matt Ralston",
+            "email": "matt@mralston.co.uk",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.0",
+        "illuminate/http": "^10.0",
+        "illuminate/support": "^10.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Mralston\\Cxm\\": "src"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Mralston\\Cxm\\Providers\\CxmServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
