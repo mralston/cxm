@@ -47,7 +47,7 @@ $dataList = DataList::make([
 ]);
 
 // Load the contact into the dialler.
-// $result is the Contact created on the dialler and contains its UUID
+// $result reflects the Contact record created on the dialler and contains its UUID
 $result = Cxm::customerLoadSingle($contact, $dataList);
 ```
 

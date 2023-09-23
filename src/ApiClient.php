@@ -24,6 +24,13 @@ class ApiClient
         $this->endpoint = Str::of($this->endpoint)->rtrim('/');
     }
 
+    /**
+     * @param Contact $contact
+     * @param DataList $dataList
+     * @return Contact
+     * @throws \Illuminate\Http\Client\RequestException
+     * @deprecated
+     */
     public function customerLoadSingle(Contact $contact, DataList $dataList)
     {
         $payload = [
@@ -45,6 +52,50 @@ class ApiClient
                 'created_at',
                 'updated_at',
             ])
+        ]);
+    }
+
+    public function createContact(Contact $contact, DataList $dataList)
+    {
+        $payload = [
+            'options' => [
+                'cd_list_id' => $dataList->uuid,
+                'create_customers' => true,
+//                'custom_fields' , // Custom information that we might want to pass along
+//                'dry_run' => true,
+                'mapping_fields' => $contact->mappingFields(),
+                'queue_options' => [
+                    'auto_queue_for_dialling' => true,
+                    'force_dial' => false,
+                    'priority' => 0,
+                ],
+                'return_data' => true,
+//                    'settings' => [
+//                        'check_primary_email' => false,
+//                        'check_primary_tel' => false,
+//                        'dup_campaign_check' => false,
+//                        'dup_campaigns' => [],
+//                        'dup_list_check' => false,
+//                        'dup_lists' => [],
+//                        'dup_system_check' => false,
+//                        'dup_upload_check' => false,
+//                        'primary_email_required' => false,
+//                        'primary_tel_required' => false
+//                    ],
+            ],
+            'data' => [
+                $contact->attributesToArray(),
+            ]
+        ];
+
+        $this->response = Http::withHeaders($this->authHeaders())
+            ->post($this->endpoint . '/contact', $payload)
+            ->throw();
+
+        $json = $this->response->json();
+
+        return $contact->fill([
+            'uuid' => $json['data'][0]['contact_data_id']
         ]);
     }
 
