@@ -9,6 +9,6 @@ class DataList extends Model
     protected $guarded = [];
 
     protected $attributes = [
-        'uuid',
+        'uuid' => null,
     ];
 }
