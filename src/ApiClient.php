@@ -8,6 +8,7 @@ use Mralston\Cxm\Traits\Auth;
 use Mralston\Cxm\Traits\Campaigns;
 use Mralston\Cxm\Traits\Contacts;
 use Mralston\Cxm\Traits\DataLists;
+use Mralston\Cxm\Traits\Users;
 
 class ApiClient
 {
@@ -15,6 +16,7 @@ class ApiClient
     use Campaigns;
     use Contacts;
     use DataLists;
+    use Users;
 
     private Response $response;
 
