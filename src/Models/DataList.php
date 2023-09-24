@@ -6,9 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class DataList extends Model
 {
-    protected $guarded = [];
+    protected $keyType = 'string';
 
-    protected $attributes = [
-        'uuid' => null,
-    ];
+    protected $guarded = [];
 }

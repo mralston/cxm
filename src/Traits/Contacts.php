@@ -18,7 +18,7 @@ trait Contacts
     public function customerLoadSingle(Contact $contact, DataList $dataList): Contact
     {
         $payload = [
-            'cd_list_id' => $dataList->uuid,
+            'cd_list_id' => $dataList->id,
             'contact_data' => $contact->attributesToArray(),
             'customer_tags' => []
         ];
@@ -29,21 +29,14 @@ trait Contacts
 
         $json = $this->response->json();
 
-        return $contact->fill([
-            'uuid' => $json['data']['id'],
-            ...collect($json['data']['contact_data'])->only([
-                'full_name',
-                'created_at',
-                'updated_at',
-            ])
-        ]);
+        return $contact->fill($json['data']['contact_data']);
     }
 
     public function createContact(Contact $contact, DataList $dataList): Contact
     {
         $payload = [
             'options' => [
-                'cd_list_id' => $dataList->uuid,
+                'cd_list_id' => $dataList->id,
                 'create_customers' => true,
 //                'custom_fields' , // Custom information that we might want to pass along
 //                'dry_run' => true,
@@ -78,8 +71,6 @@ trait Contacts
 
         $json = $this->response->json();
 
-        return $contact->fill([
-            'uuid' => $json['data'][0]['contact_data_id']
-        ]);
+        return $contact->fill($json['data'][0]);
     }
 }

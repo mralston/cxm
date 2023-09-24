@@ -6,12 +6,14 @@ use Illuminate\Http\Client\Response;
 use Illuminate\Support\Str;
 use Mralston\Cxm\Traits\Auth;
 use Mralston\Cxm\Traits\Campaigns;
+use Mralston\Cxm\Traits\Contacts;
 use Mralston\Cxm\Traits\DataLists;
 
 class ApiClient
 {
     use Auth;
     use Campaigns;
+    use Contacts;
     use DataLists;
 
     private Response $response;

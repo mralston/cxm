@@ -17,10 +17,7 @@ trait DataLists
         $json = $this->response->json();
 
         return collect($json['data'])
-            ->map(fn ($dataList) => DataList::make([
-                'uuid' => $dataList['id'],
-                ...collect($dataList)->except('id'),
-            ]));
+            ->map(fn ($dataList) => DataList::make($dataList));
     }
 
     public function createDataList(DataList $dataList): DataList
@@ -31,29 +28,24 @@ trait DataLists
 
         $json = $this->response->json();
 
-        return $dataList->fill([
-            'uuid' => $json['data']['id'],
-            ...collect($json['data'])->except('id'),
-        ]);
+        return $dataList->fill($json['data']);
     }
 
     public function updateDataList(DataList $dataList): DataList
     {
         $this->response = Http::withHeaders($this->authHeaders())
-            ->patch($this->endpoint . '/cd-list/' . $dataList->uuid, $dataList->attributesToArray())
+            ->patch($this->endpoint . '/cd-list/' . $dataList->id, $dataList->attributesToArray())
             ->throw();
 
         $json = $this->response->json();
 
-        return $dataList->fill([
-            ...collect($json['data'])->except('id'),
-        ]);
+        return $dataList->fill($json['data']);
     }
 
     public function deleteDataList(DataList $dataList): bool
     {
         $this->response = Http::withHeaders($this->authHeaders())
-            ->delete($this->endpoint . '/cd-list/' . $dataList->uuid)
+            ->delete($this->endpoint . '/cd-list/' . $dataList->id)
             ->throw();
 
         $json = $this->response->json();

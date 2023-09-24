@@ -43,11 +43,11 @@ $contact = Contact::make([
 
 // Create a DataList DTO
 $dataList = DataList::make([
-    'uuid' => '...' 
+    'id' => '...' 
 ]);
 
 // Load the contact into the dialler.
-// $result reflects the Contact record created on the dialler and contains its UUID
+// $result reflects the Contact record created on the dialler and contains its ID
 $result = Cxm::customerLoadSingle($contact, $dataList);
 ```
 

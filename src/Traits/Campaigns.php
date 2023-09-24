@@ -18,10 +18,7 @@ trait Campaigns
         $json = $this->response->json();
 
         return collect($json['data'])
-            ->map(fn ($campaign) => Campaign::make([
-                'uuid' => $campaign['id'],
-                ...collect($campaign)->except('id'),
-            ]));
+            ->map(fn ($campaign) => Campaign::make($campaign));
     }
 
     public function createCampaign(Campaign $campaign): Campaign
@@ -32,29 +29,24 @@ trait Campaigns
 
         $json = $this->response->json();
 
-        return $campaign->fill([
-            'uuid' => $json['data']['id'],
-            ...collect($json['data'])->except('id'),
-        ]);
+        return $campaign->fill($json['data']);
     }
 
     public function updateCampaign(Campaign $campaign): Campaign
     {
         $this->response = Http::withHeaders($this->authHeaders())
-            ->patch($this->endpoint . '/campaign/' . $campaign->uuid, $campaign->attributesToArray())
+            ->patch($this->endpoint . '/campaign/' . $campaign->id, $campaign->attributesToArray())
             ->throw();
 
         $json = $this->response->json();
 
-        return $campaign->fill([
-            ...collect($json['data'])->except('id'),
-        ]);
+        return $campaign->fill($json['data']);
     }
 
     public function deleteCampaign(Campaign $campaign): bool
     {
         $this->response = Http::withHeaders($this->authHeaders())
-            ->delete($this->endpoint . '/campaign/' . $campaign->uuid)
+            ->delete($this->endpoint . '/campaign/' . $campaign->id)
             ->throw();
 
         $json = $this->response->json();
@@ -65,15 +57,12 @@ trait Campaigns
     public function getCampaignDataLists(Campaign $campaign): Collection
     {
         $this->response = Http::withHeaders($this->authHeaders())
-            ->get($this->endpoint . '/campaign/' . $campaign->uuid . '/cd-list')
+            ->get($this->endpoint . '/campaign/' . $campaign->id . '/cd-list')
             ->throw();
 
         $json = $this->response->json();
 
         return collect($json['data'])
-            ->map(fn ($dataList) => DataList::make([
-                'uuid' => $dataList['id'],
-                ...collect($dataList)->except('id'),
-            ]));
+            ->map(fn ($dataList) => DataList::make($dataList));
     }
 }
