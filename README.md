@@ -17,7 +17,7 @@ Add the following items to your .env file:
 ```dotenv
 CXM_CLIENT_ID=
 CXM_SECRET=
-CMX_TOKEN=
+CXM_TOKEN=
 CXM_ENDPOINT=https://apigateway-your-company-name-cxm.cnx1.cloud
 ```
 
@@ -25,7 +25,7 @@ The `CXM_CLIENT_ID` and `CXM_SECRET` are set up on the dialler web interface at:
 
 > Admin > API > API Credentials > Create API Credentials
 
-The `CMX_TOKEN` is set up on the dialler web interface at:
+The `CXM_TOKEN` is set up on the dialler web interface at:
 
 > Admin > API > API Clients > Create API Clients
  
