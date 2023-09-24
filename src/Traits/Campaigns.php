@@ -35,7 +35,10 @@ trait Campaigns
     public function updateCampaign(Campaign $campaign): Campaign
     {
         $this->response = Http::withHeaders($this->authHeaders())
-            ->patch($this->endpoint . '/campaign/' . $campaign->id, $campaign->attributesToArray())
+            ->patch(
+                $this->endpoint . '/campaign/' . $campaign->id,
+                collect($campaign->getAttributes())->except('id')
+            )
             ->throw();
 
         $json = $this->response->json();

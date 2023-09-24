@@ -35,7 +35,10 @@ trait InboundNumbers
     public function updateInboundNumber(InboundNumber $inboundNumber): InboundNumber
     {
         $this->response = Http::withHeaders($this->authHeaders())
-            ->patch($this->endpoint . '/inbound-number/' . $inboundNumber->id, $inboundNumber->attributesToArray())
+            ->patch(
+                $this->endpoint . '/inbound-number/' . $inboundNumber->id,
+                collect($inboundNumber->getAttributes())->except('id')
+            )
             ->throw();
 
         $json = $this->response->json();

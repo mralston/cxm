@@ -34,7 +34,10 @@ trait Users
     public function updateUser(User $user): User
     {
         $this->response = Http::withHeaders($this->authHeaders())
-            ->patch($this->endpoint . '/user/' . $user->id, $user->attributesToArray())
+            ->patch(
+                $this->endpoint . '/user/' . $user->id,
+                collect($user->getAttributes())->except('id')
+            )
             ->throw();
 
         $json = $this->response->json();

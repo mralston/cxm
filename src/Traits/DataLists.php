@@ -34,7 +34,10 @@ trait DataLists
     public function updateDataList(DataList $dataList): DataList
     {
         $this->response = Http::withHeaders($this->authHeaders())
-            ->patch($this->endpoint . '/cd-list/' . $dataList->id, $dataList->attributesToArray())
+            ->patch(
+                $this->endpoint . '/cd-list/' . $dataList->id,
+                collect($dataList->getAttributes())->except('id')
+            )
             ->throw();
 
         $json = $this->response->json();
