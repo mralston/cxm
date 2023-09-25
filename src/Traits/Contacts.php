@@ -38,7 +38,7 @@ trait Contacts
             'options' => [
                 'cd_list_id' => $dataList->id,
                 'create_customers' => true,
-//                'custom_fields' , // Custom information that we might want to pass along
+                'custom_fields' => $contact->customMappingFields(),
 //                'dry_run' => true,
                 'mapping_fields' => $contact->mappingFields(),
                 'queue_options' => [
@@ -61,7 +61,10 @@ trait Contacts
 //                    ],
             ],
             'data' => [
-                $contact->attributesToArray(),
+                [
+                    ...$contact->attributesToArray(),
+                    ...$contact->customFields,
+                ]
             ]
         ];
 

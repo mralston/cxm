@@ -9,6 +9,7 @@ use Mralston\Cxm\Traits\Campaigns;
 use Mralston\Cxm\Traits\Contacts;
 use Mralston\Cxm\Traits\DataLists;
 use Mralston\Cxm\Traits\InboundNumbers;
+use Mralston\Cxm\Traits\Roles;
 use Mralston\Cxm\Traits\Sources;
 use Mralston\Cxm\Traits\Users;
 
@@ -19,6 +20,7 @@ class ApiClient
     use Contacts;
     use DataLists;
     use InboundNumbers;
+    use Roles;
     use Sources;
     use Users;
 
