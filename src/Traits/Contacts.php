@@ -42,7 +42,7 @@ trait Contacts
 //                'dry_run' => true,
                 'mapping_fields' => $contact->mappingFields(),
                 'queue_options' => [
-                    'auto_queue_for_dialling' => true,
+                    'auto_queue_for_dialling' => false, // This *forces* them into the 'hopper' so to speak
                     'force_dial' => false,
                     'priority' => 0,
                 ],
