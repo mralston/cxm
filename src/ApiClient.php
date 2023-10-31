@@ -24,6 +24,7 @@ class ApiClient
     use Sources;
     use Users;
 
+    private array|object|null $requestPayload;
     private Response $response;
 
     public function __construct(
@@ -33,6 +34,11 @@ class ApiClient
         private string $endpoint
     ) {
         $this->endpoint = Str::of($this->endpoint)->rtrim('/');
+    }
+
+    public function getRequestPayload(): array|object|null
+    {
+        return $this->requestPayload;
     }
 
     public function getLastResponse(): Response

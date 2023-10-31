@@ -17,14 +17,14 @@ trait Contacts
      */
     public function customerLoadSingle(Contact $contact, DataList $dataList): Contact
     {
-        $payload = [
+        $this->requestPayload = [
             'cd_list_id' => $dataList->id,
             'contact_data' => $contact->attributesToArray(),
             'customer_tags' => []
         ];
 
         $this->response = Http::withHeaders($this->authHeaders())
-            ->post($this->endpoint . '/customer/load/single', $payload)
+            ->post($this->endpoint . '/customer/load/single', $this->requestPayload)
             ->throw();
 
         $json = $this->response->json();
@@ -34,7 +34,7 @@ trait Contacts
 
     public function createContact(Contact $contact, DataList $dataList): Contact
     {
-        $payload = [
+        $this->requestPayload = [
             'options' => [
                 'cd_list_id' => $dataList->id,
                 'create_customers' => true,
@@ -69,7 +69,7 @@ trait Contacts
         ];
 
         $this->response = Http::withHeaders($this->authHeaders())
-            ->post($this->endpoint . '/contact', $payload)
+            ->post($this->endpoint . '/contact', $this->requestPayload)
             ->throw();
 
         $json = $this->response->json();
