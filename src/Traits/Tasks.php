@@ -6,33 +6,22 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 use Mralston\Cxm\Models\Campaign;
 use Mralston\Cxm\Models\DataList;
+use Mralston\Cxm\Models\Task;
 
-trait Campaigns
+trait Tasks
 {
-    public function getCampaigns(): Collection
+    public function createTask(Task $task): Task
     {
         $this->response = Http::withHeaders($this->authHeaders())
-            ->get($this->endpoint . '/campaigns')
+            ->post($this->endpoint . '/task', $task->attributesToArray())
             ->throw();
 
         $json = $this->response->json();
 
-        return collect($json['data'])
-            ->map(fn ($campaign) => Campaign::make($campaign));
+        return $task->fill($json['data']);
     }
 
-    public function createCampaign(Campaign $campaign): Campaign
-    {
-        $this->response = Http::withHeaders($this->authHeaders())
-            ->post($this->endpoint . '/campaign', $campaign->attributesToArray())
-            ->throw();
-
-        $json = $this->response->json();
-
-        return $campaign->fill($json['data']);
-    }
-
-    public function updateCampaign(Campaign $campaign): Campaign
+    public function updateTask(Campaign $campaign): Campaign
     {
         $this->response = Http::withHeaders($this->authHeaders())
             ->patch(
@@ -46,7 +35,7 @@ trait Campaigns
         return $campaign->fill($json['data']);
     }
 
-    public function deleteCampaign(Campaign $campaign): bool
+    public function deleteTask(Campaign $campaign): bool
     {
         $this->response = Http::withHeaders($this->authHeaders())
             ->delete($this->endpoint . '/campaign/' . $campaign->id)
@@ -55,17 +44,5 @@ trait Campaigns
         $json = $this->response->json();
 
         return true;
-    }
-
-    public function getCampaignDataLists(Campaign $campaign): Collection
-    {
-        $this->response = Http::withHeaders($this->authHeaders())
-            ->get($this->endpoint . '/campaign/' . $campaign->id . '/cd-list')
-            ->throw();
-
-        $json = $this->response->json();
-
-        return collect($json['data'])
-            ->map(fn ($dataList) => DataList::make($dataList));
     }
 }
