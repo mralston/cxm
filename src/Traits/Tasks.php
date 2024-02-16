@@ -21,24 +21,24 @@ trait Tasks
         return $task->fill($json['data']);
     }
 
-    public function updateTask(Campaign $campaign): Campaign
+    public function updateTask(Task $task): Task
     {
         $this->response = Http::withHeaders($this->authHeaders())
             ->patch(
-                $this->endpoint . '/campaign/' . $campaign->id,
-                collect($campaign->getAttributes())->except('id')
+                $this->endpoint . '/task/' . $task->id,
+                collect($task->getAttributes())->except('id')
             )
             ->throw();
 
         $json = $this->response->json();
 
-        return $campaign->fill($json['data']);
+        return $task->fill($json['data']);
     }
 
-    public function deleteTask(Campaign $campaign): bool
+    public function deleteTask(Task $task): bool
     {
         $this->response = Http::withHeaders($this->authHeaders())
-            ->delete($this->endpoint . '/campaign/' . $campaign->id)
+            ->delete($this->endpoint . '/task/' . $task->id)
             ->throw();
 
         $json = $this->response->json();
