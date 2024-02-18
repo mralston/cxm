@@ -11,6 +11,7 @@ use Mralston\Cxm\Traits\DataLists;
 use Mralston\Cxm\Traits\InboundNumbers;
 use Mralston\Cxm\Traits\Roles;
 use Mralston\Cxm\Traits\Sources;
+use Mralston\Cxm\Traits\Tasks;
 use Mralston\Cxm\Traits\Users;
 
 class ApiClient
@@ -22,6 +23,7 @@ class ApiClient
     use InboundNumbers;
     use Roles;
     use Sources;
+    use Tasks;
     use Users;
 
     private array|object|null $requestPayload;
