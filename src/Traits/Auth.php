@@ -11,8 +11,7 @@ trait Auth
     {
         return [
             'Authorization' => 'Bearer ' . $this->authenticate(), // oAuth token
-            // 'X-Authorization' => 'Bearer ' . $this->token, // CXM bearer token
-            'X-Auth' => $this->token, // CXM basic auth token
+            'X-Authorization' => 'Basic ' . $this->token, // CXM basic auth token
         ];
     }
 
