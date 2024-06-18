@@ -10,8 +10,9 @@ trait Auth
     private function authHeaders(): array
     {
         return [
-            'Authorization' => 'Bearer ' . $this->authenticate(),
-            'X-Authorization' => 'Bearer ' . $this->token,
+            'Authorization' => 'Bearer ' . $this->authenticate(), // oAuth token
+            // 'X-Authorization' => 'Bearer ' . $this->token, // CXM bearer token
+            'X-Auth' => $this->token, // CXM basic auth token
         ];
     }
 
