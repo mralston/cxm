@@ -4,15 +4,26 @@ namespace Mralston\Cxm\Traits;
 
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
+use Mralston\Cxm\Enums\AuthMode;
 
 trait Auth
 {
+    protected AuthMode $authMode = AuthMode::BASIC;
+
     private function authHeaders(): array
     {
-        return [
-            'Authorization' => 'Bearer ' . $this->authenticate(), // oAuth token
-            'X-Authorization' => 'Basic ' . $this->token, // CXM basic auth token
-        ];
+        return match ($this->authMode) {
+            // Original CXM authentication used a bearer token for both headers
+            AuthMode::BEARER => [
+                'Authorization' => 'Bearer ' . $this->authenticate(), // oAuth token
+                'X-Authorization' => 'Bearer ' . $this->token, // CXM basic auth token
+            ],
+            // CXM 15.4+ authentication uses a basic token for the X-Authorization header
+            AuthMode::BASIC => [
+                'Authorization' => 'Bearer ' . $this->authenticate(), // oAuth token
+                'X-Authorization' => 'Basic ' . $this->token, // CXM basic auth token
+            ]
+        };
     }
 
     private function authenticate(): string
@@ -36,5 +47,27 @@ trait Auth
         Cache::put($cacheKey, $json['access_token'], $json['expires_in']);
 
         return $json['access_token'];
+    }
+
+    public function basicAuth()
+    {
+        $this->authMode = AuthMode::BASIC;
+        return $this;
+    }
+
+    public function bearerAuth()
+    {
+        $this->authMode = AuthMode::BEARER;
+        return $this;
+    }
+
+    public function setAuthMode(AuthMode $authMode)
+    {
+        $this->authMode = $authMode;
+    }
+
+    public function getAuthMode(): AuthMode
+    {
+        return $this->authMode;
     }
 }
