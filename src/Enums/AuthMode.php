@@ -2,8 +2,8 @@
 
 namespace Mralston\Cxm\Enums;
 
-enum AuthMode: int
+enum AuthMode: string
 {
-    case BASIC = 0;
-    case BEARER = 1;
+    case BASIC = 'basic';
+    case BEARER = 'bearer';
 }
