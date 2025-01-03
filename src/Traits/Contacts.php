@@ -76,4 +76,22 @@ trait Contacts
 
         return $contact->fill($json['data'][0]);
     }
+
+    public function getContact(string $uuid): Contact
+    {
+        //create the contact
+        $contact = Contact::make();
+
+        //get the contact from cxm
+        $this->response = Http::withHeaders($this->authHeaders())
+            ->get($this->endpoint . '/contact/' . $uuid)
+            ->throw();
+
+        //get the json response
+        $json = $this->response->json();
+
+        //return the contact
+        return $contact->fill($json['data']);
+
+    }
 }
