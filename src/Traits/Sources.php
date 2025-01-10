@@ -28,7 +28,7 @@ trait Sources
 
         $json = $this->response->json();
 
-        return Source::make($source);
+        return Source::make($json['data']);
     }
 
 //    public function createSource(Source $source): Source

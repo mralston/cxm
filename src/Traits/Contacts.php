@@ -5,9 +5,22 @@ namespace Mralston\Cxm\Traits;
 use Illuminate\Support\Facades\Http;
 use Mralston\Cxm\Models\Contact;
 use Mralston\Cxm\Models\DataList;
+use Mralston\Cxm\Models\Source;
 
 trait Contacts
 {
+    public function getContact(Contact $contact): Contact
+    {
+        $this->response = Http::withHeaders($this->authHeaders())
+            ->get($this->endpoint . '/contact/' . $contact->id)
+            ->throw();
+
+        $json = $this->response->json();
+
+        return Contact::make($json['data']);
+
+    }
+
     public function createContact(Contact $contact, DataList $dataList): Contact
     {
         $this->requestPayload = [
