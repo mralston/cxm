@@ -8,30 +8,6 @@ use Mralston\Cxm\Models\DataList;
 
 trait Contacts
 {
-    /**
-     * @param Contact $contact
-     * @param DataList $dataList
-     * @return Contact
-     * @throws \Illuminate\Http\Client\RequestException
-     * @deprecated
-     */
-    public function customerLoadSingle(Contact $contact, DataList $dataList): Contact
-    {
-        $this->requestPayload = [
-            'cd_list_id' => $dataList->id,
-            'contact_data' => $contact->attributesToArray(),
-            'customer_tags' => []
-        ];
-
-        $this->response = Http::withHeaders($this->authHeaders())
-            ->post($this->endpoint . '/customer/load/single', $this->requestPayload)
-            ->throw();
-
-        $json = $this->response->json();
-
-        return $contact->fill($json['data']['contact_data']);
-    }
-
     public function createContact(Contact $contact, DataList $dataList): Contact
     {
         $this->requestPayload = [
@@ -75,5 +51,21 @@ trait Contacts
         $json = $this->response->json();
 
         return $contact->fill($json['data'][0]);
+    }
+
+    public function updateContact(Contact $contact, DataList $dataList): Contact
+    {
+        $this->requestPayload = [
+            'cd_list_id' => $dataList->id,
+            'contact_data' => $contact->attributesToArray(),
+        ];
+
+        $this->response = Http::withHeaders($this->authHeaders())
+            ->patch($this->endpoint . '/contact/' . $contact->id, $this->requestPayload)
+            ->throw();
+
+        $json = $this->response->json();
+
+        return $contact->fill($json['data']);
     }
 }
