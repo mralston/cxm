@@ -81,7 +81,7 @@ trait Contacts
 
         $json = $this->response->json();
 
-        return $contact->fill($json['data']);
+        return Contact::make($json['data']);
     }
 
     public function setContactOutcome(Contact $contact, DataList $dataList, string $outcomeId): bool
