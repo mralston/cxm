@@ -83,4 +83,18 @@ trait Contacts
 
         return $contact->fill($json['data']);
     }
+
+    public function setContactOutcome(Contact $contact, DataList $dataList, string $outcomeId): bool
+    {
+        $this->requestPayload = [
+            'cd_list_id' => $dataList->id,
+            'outcome_id' => $outcomeId,
+        ];
+
+        $this->response = Http::withHeaders($this->authHeaders())
+            ->patch($this->endpoint . '/contact/' . $contact->id, $this->requestPayload)
+            ->throw();
+
+        return $this->response->successful();
+    }
 }
