@@ -70,7 +70,9 @@ trait Contacts
     {
         $this->requestPayload = [
             'cd_list_id' => $dataList->id,
-            'contact_data' => $contact->attributesToArray(),
+            'contact_data' => collect($contact->getAttributes())
+                ->except('id')
+                ->toArray(),
         ];
 
         $this->response = Http::withHeaders($this->authHeaders())
